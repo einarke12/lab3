@@ -1,6 +1,6 @@
 import aima.core.search.csp.*;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -28,84 +28,71 @@ public class Main {
 //		Now, who drinks water? Who owns the zebra?
 
 
-		/*String[] colors = {"Red", "Green", "Ivory", "Yellow", "Blue"};
+		String[] colors = {"Red", "Green", "Ivory", "Yellow", "Blue"};
 		String[] nations = {"Englishman", "Spaniard", "Norwegian", "Ukrainian", "Japanese"};
 		String[] cigarettes = {"Old Gold", "Kools", "Chesterfields", "Lucky Strike", "Parliaments"};
 		String[] drink = {"Water", "Orange juice", "Tea", "Coffee", "Milk"};
-		String[] pet = {"Zebra", "Dog", "Fox", "Snails", "Horse"};*/
+		String[] pet = {"Zebra", "Dog", "Fox", "Snails", "Horse"};
 
-		String[] houseNumbers = {"1", "2", "3", "4", "5"};
-
-		List<Variable> variables = new LinkedList<Variable>();
-
-		// TODO create variables, e.g.,
-		Variable Red = new Variable("Red");
-		Variable Green = new Variable("Green");
-		Variable Ivory = new Variable("Ivory");
-		Variable Yellow = new Variable("Yellow");
-		Variable Blue = new Variable("Blue");
-
-		Variable Englishman = new Variable("Englishman");
-		Variable Spaniard = new Variable("Spaniard");
-		Variable Norwegian = new Variable("Norwegian");
-		Variable Ukrainian = new Variable("Ukrainian");
-		Variable Japanese = new Variable("Japanese");
-
-		Variable OldGold = new Variable("OldGold");
-		Variable Kools = new Variable("Kools");
-		Variable Chesterfields = new Variable("Chesterfields");
-		Variable LuckyStrike = new Variable("LuckyStrike");
-		Variable Parliaments = new Variable("Parliaments");
-
-		Variable Water = new Variable("Water");
-		Variable OrangeJuice = new Variable("OrangeJuice");
-		Variable Tea = new Variable("Tea");
-		Variable Coffee = new Variable("Coffee");
-		Variable Milk = new Variable("Milk");
-
-		Variable Zebra = new Variable("Zebra");
-		Variable Dog = new Variable("Dog");
-		Variable Fox = new Variable("Fox");
-		Variable Snails = new Variable("Snails");
-		Variable Horse = new Variable("Horse");
+		Integer[] houseNumbers = {1, 2, 3, 4, 5};
 
 		// TODO add all your variables to this list, e.g.,
-		variables.add(Red);
-		variables.add(Green);
-		variables.add(Ivory);
-		variables.add(Yellow);
-		variables.add(Blue);
+		List<Variable> colorList = new ArrayList<Variable>();
+		List<Variable> nationList = new ArrayList<Variable>();
+		List<Variable> cigarettList = new ArrayList<Variable>();
+		List<Variable> drinkList = new ArrayList<Variable>();
+		List<Variable> petList = new ArrayList<Variable>();
 
-		variables.add(Englishman);
-		variables.add(Spaniard);
-		variables.add(Norwegian);
-		variables.add(Ukrainian);
-		variables.add(Japanese);
+		for (int i = 0; i < colors.length; i++)
+		{
+			colorList.add(new Variable(colors[i]));
+			nationList.add(new Variable(nations[i]));
+			cigarettList.add(new Variable(cigarettes[i]));
+			drinkList.add(new Variable(drink[i]));
+			petList.add(new Variable(pet[i]));
+		}
 
-		variables.add(OldGold);
-		variables.add(Kools);
-		variables.add(Chesterfields);
-		variables.add(LuckyStrike);
-		variables.add(Parliaments);
+		List<Variable> variables = new ArrayList<Variable>();
 
-		variables.add(Water);
-		variables.add(OrangeJuice);
-		variables.add(Tea);
-		variables.add(Coffee);
-		variables.add(Milk);
-
-		variables.add(Zebra);
-		variables.add(Dog);
-		variables.add(Fox);
-		variables.add(Snails);
-		variables.add(Horse);
-
+		for (int i = 0; i < colors.length; i++)
+		{
+			for (int j = 0; j < colors.length; j++)
+			{
+				if (i == 0)
+					variables.add(colorList.get(j));
+				else if (i == 1)
+					variables.add(nationList.get(j));
+				else if (i == 2)
+					variables.add(cigarettList.get(j));
+				else if (i == 3)
+					variables.add(drinkList.get(j));
+				else
+					variables.add(petList.get(j));
+			}
+		}
 		
 		csp = new CSP(variables);
 
 		// TODO set domains of variables, e.g.,
 		Domain d = new Domain(houseNumbers);
-//		# The Englishman lives in the red house.
+
+		for(Variable v: variables)
+		{
+			if(v.getName().equals("Norwegian"))
+			{
+				csp.setDomain(v, new Domain(new Integer[] {1} ));
+			}
+			else if(v.getName().equals("Milk"))
+			{
+				csp.setDomain(v, new Domain(new Integer[] {3} ));
+			}
+			else
+			{
+				csp.setDomain(v, d);
+			}
+		}
+
+//		# --The Englishman lives in the red house.
 //		# The Spaniard owns the dog.
 //		# Coffee is drunk in the green house.
 //		# The Ukrainian drinks tea.
@@ -119,38 +106,58 @@ public class Main {
 //		# The Lucky Strike smoker drinks orange juice.
 //		# The Japanese smokes Parliaments.
 //		# The Norwegian lives next to the blue house.
+		// TODO add constraints, e.g.,
 
-		for(Variable v: variables)
+		/*
+		String[] colors = {"Red", "Green", "Ivory", "Yellow", "Blue"};
+		String[] nations = {"Englishman", "Spaniard", "Norwegian", "Ukrainian", "Japanese"};
+		String[] cigarettes = {"Old Gold", "Kools", "Chesterfields", "Lucky Strike", "Parliaments"};
+		String[] drink = {"Water", "Orange juice", "Tea", "Coffee", "Milk"};
+		String[] pet = {"Zebra", "Dog", "Fox", "Snails", "Horse"};
+		 */
+
+		csp.addConstraint(new EqualConstraint(nationList.get(0), colorList.get(0))); // meaning var1 == var2
+		csp.addConstraint(new EqualConstraint(nationList.get(0), petList.get(1))); // meaning var1 == var2
+		csp.addConstraint(new EqualConstraint(drinkList.get(3), colorList.get(1))); // meaning var1 == var2
+		csp.addConstraint(new EqualConstraint(nationList.get(3), drinkList.get(2))); // meaning var1 == var2
+		csp.addConstraint(new EqualConstraint(drinkList.get(3), colorList.get(1))); // meaning var1 == var2
+		csp.addConstraint(new SuccessorConstraint(colorList.get(1), colorList.get(2))); // meaning var1 == var2 + 1
+		csp.addConstraint(new EqualConstraint(cigarettList.get(0), petList.get(3))); // meaning var1 == var2
+		csp.addConstraint(new EqualConstraint(cigarettList.get(1), colorList.get(3))); // meaning var1 == var2
+
+		csp.addConstraint(new DifferByOneConstraint(cigarettList.get(2), petList.get(2))); // meaning var1 == var2 + 1 or var1 == var2 - 1
+		csp.addConstraint(new DifferByOneConstraint(cigarettList.get(1), petList.get(4))); // meaning var1 == var2 + 1 or var1 == var2 - 1
+		csp.addConstraint(new EqualConstraint(cigarettList.get(3), drinkList.get(1))); // meaning var1 == var2
+		csp.addConstraint(new EqualConstraint(nationList.get(4), cigarettList.get(4))); // meaning var1 == var2
+		csp.addConstraint(new DifferByOneConstraint(nationList.get(2), colorList.get(4))); // meaning var1 == var2 + 1 or var1 == var2 - 1
+
+
+		for (int i = 0; i < colorList.size(); i++)
 		{
-			if(v.getName().equals("Norwegian"))
+			for (int j = 0; j < colorList.size(); j++)
 			{
-				csp.setDomain(v, new Domain(new String[] {"1"} ));
-			}
-			else if(v.getName().equals("Milk"))
-			{
-				csp.setDomain(v, new Domain(new String[] {"3"} ));
-			}
-			else
-			{
-				csp.setDomain(v, d);
+				if (i == j)
+				{
+					// Do nothing
+				}
+				else
+				{
+					csp.addConstraint(new NotEqualConstraint(colorList.get(i), colorList.get(j)));
+					csp.addConstraint(new NotEqualConstraint(nationList.get(i), nationList.get(j)));
+					csp.addConstraint(new NotEqualConstraint(cigarettList.get(i), cigarettList.get(j)));
+					csp.addConstraint(new NotEqualConstraint(drinkList.get(i), drinkList.get(j)));
+					csp.addConstraint(new NotEqualConstraint(petList.get(i), petList.get(j)));
+				}
 			}
 		}
 
-		
-		// TODO add constraints, e.g.,
-		csp.addConstraint(new EqualConstraint(Englishman, Red));
-		//csp.addConstraint(new NotEqualConstraint(var1, var2)); // meaning var1 != var2
-		//csp.addConstraint(new EqualConstraint(var1, var2)); // meaning var1 == var2
-		//csp.addConstraint(new SuccessorConstraint(var1, var2)); // meaning var1 == var2 + 1
-		//csp.addConstraint(new DifferByOneConstraint(var1, var2)); // meaning var1 == var2 + 1 or var1 == var2 - 1
-		
 		return csp;
 	}
 
 	private static void printSolution(Assignment solution) {
 		// TODO print out useful answer
 		// You can use the following to get the value assigned to a variable:
-		// Object value = solution.getAssignment(var); 
+		// Object value = solution.getAssignment(var);
 		System.out.println("solution:" + solution);
 	}
 	

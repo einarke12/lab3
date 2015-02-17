@@ -16,7 +16,10 @@ public class DifferByOneConstraint extends BinaryConstraint {
 	@Override
 	public boolean isSatisfiedWith(Assignment assignment) {
 		// TODO implement this
-		return false;
+		Object value1 = assignment.getAssignment(var1);
+		Object value2 = assignment.getAssignment(var2);
+
+		return value1 == null || value2 == null || Math.abs((Integer)value1 - (Integer)value2 ) == 1;
 	}
 
 }
