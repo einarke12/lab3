@@ -115,22 +115,25 @@ public class Main {
 		String[] drink = {"Water", "Orange juice", "Tea", "Coffee", "Milk"};
 		String[] pet = {"Zebra", "Dog", "Fox", "Snails", "Horse"};
 		 */
+		boolean tests = false;
 
-		csp.addConstraint(new EqualConstraint(nationList.get(0), colorList.get(0))); // meaning var1 == var2
-		csp.addConstraint(new EqualConstraint(nationList.get(1), petList.get(1))); // meaning var1 == var2
-		csp.addConstraint(new EqualConstraint(drinkList.get(3), colorList.get(1))); // meaning var1 == var2
-		csp.addConstraint(new EqualConstraint(nationList.get(3), drinkList.get(2))); // meaning var1 == var2
+		if (tests)
+		{
+			csp.addConstraint(new EqualConstraint(nationList.get(0), colorList.get(0))); // meaning var1 == var2
+			csp.addConstraint(new EqualConstraint(nationList.get(1), petList.get(1))); // meaning var1 == var2
+			csp.addConstraint(new EqualConstraint(drinkList.get(3), colorList.get(1))); // meaning var1 == var2
+			csp.addConstraint(new EqualConstraint(nationList.get(3), drinkList.get(2))); // meaning var1 == var2
 
-		csp.addConstraint(new SuccessorConstraint(colorList.get(1), colorList.get(2))); // meaning var1 == var2 + 1
-		csp.addConstraint(new EqualConstraint(cigarettList.get(0), petList.get(3))); // meaning var1 == var2
-		csp.addConstraint(new EqualConstraint(cigarettList.get(1), colorList.get(3))); // meaning var1 == var2
+			csp.addConstraint(new SuccessorConstraint(colorList.get(1), colorList.get(2))); // meaning var1 == var2 + 1
+			csp.addConstraint(new EqualConstraint(cigarettList.get(0), petList.get(3))); // meaning var1 == var2
+			csp.addConstraint(new EqualConstraint(cigarettList.get(1), colorList.get(3))); // meaning var1 == var2
 
-		csp.addConstraint(new DifferByOneConstraint(cigarettList.get(2), petList.get(2))); // meaning var1 == var2 + 1 or var1 == var2 - 1
-		csp.addConstraint(new DifferByOneConstraint(cigarettList.get(1), petList.get(4))); // meaning var1 == var2 + 1 or var1 == var2 - 1
-		csp.addConstraint(new EqualConstraint(cigarettList.get(3), drinkList.get(1))); // meaning var1 == var2
-		csp.addConstraint(new EqualConstraint(nationList.get(4), cigarettList.get(4))); // meaning var1 == var2
-		csp.addConstraint(new DifferByOneConstraint(nationList.get(2), colorList.get(4))); // meaning var1 == var2 + 1 or var1 == var2 - 1
-
+			csp.addConstraint(new DifferByOneConstraint(cigarettList.get(2), petList.get(2))); // meaning var1 == var2 + 1 or var1 == var2 - 1
+			csp.addConstraint(new DifferByOneConstraint(cigarettList.get(1), petList.get(4))); // meaning var1 == var2 + 1 or var1 == var2 - 1
+			csp.addConstraint(new EqualConstraint(cigarettList.get(3), drinkList.get(1))); // meaning var1 == var2
+			csp.addConstraint(new EqualConstraint(nationList.get(4), cigarettList.get(4))); // meaning var1 == var2
+			csp.addConstraint(new DifferByOneConstraint(nationList.get(2), colorList.get(4))); // meaning var1 == var2 + 1 or var1 == var2 - 1
+		}
 
 		for (int i = 0; i < colorList.size(); i++)
 		{
@@ -147,6 +150,58 @@ public class Main {
 					csp.addConstraint(new NotEqualConstraint(cigarettList.get(i), cigarettList.get(j)));
 					csp.addConstraint(new NotEqualConstraint(drinkList.get(i), drinkList.get(j)));
 					csp.addConstraint(new NotEqualConstraint(petList.get(i), petList.get(j)));
+				}
+			}
+		}
+
+		if (!tests)
+		{
+			csp.addConstraint(new SuccessorConstraint(colorList.get(1), colorList.get(2))); // meaning var1 == var2 + 1
+			csp.addConstraint(new DifferByOneConstraint(cigarettList.get(2), petList.get(2))); // meaning var1 == var2 + 1 or var1 == var2 - 1
+			csp.addConstraint(new DifferByOneConstraint(cigarettList.get(1), petList.get(4))); // meaning var1 == var2 + 1 or var1 == var2 - 1
+			csp.addConstraint(new DifferByOneConstraint(nationList.get(2), colorList.get(4))); // meaning var1 == var2 + 1 or var1 == var2 - 1
+
+			for (int i = 0; i < cigarettList.size(); i++)
+			{
+				if (i != 4)
+				{
+					// Add constraints japanese and parlement smokes
+					csp.addConstraint(new NotEqualConstraint(nationList.get(4), cigarettList.get(i)));
+				}
+				if (i != 0)
+				{
+					// Add constraints red and english man
+					csp.addConstraint(new NotEqualConstraint(colorList.get(0), nationList.get(i)));
+				}
+				if (i != 1)
+				{
+					// Add constraints spanian and dog
+					csp.addConstraint(new NotEqualConstraint(nationList.get(1), petList.get(i)));
+				}
+				if (i != 1)
+				{
+					// Add constraints coffee and green
+					csp.addConstraint(new NotEqualConstraint(drinkList.get(3), colorList.get(i)));
+				}
+				if (i != 2)
+				{
+					// Add constraints Ukranian and te
+					csp.addConstraint(new NotEqualConstraint(nationList.get(3), drinkList.get(i)));
+				}
+				if (i != 3)
+				{
+					// Add constraints Old Golds smokes and snail
+					csp.addConstraint(new NotEqualConstraint(cigarettList.get(0), petList.get(i)));
+				}
+				if (i != 1)
+				{
+					// Add constraints Yellow and Kools
+					csp.addConstraint(new NotEqualConstraint(colorList.get(3), cigarettList.get(i)));
+				}
+				if (i != 1)
+				{
+					// Add constraints Lucky strikes and Orange juice
+					csp.addConstraint(new NotEqualConstraint(cigarettList.get(3), drinkList.get(i)));
 				}
 			}
 		}
