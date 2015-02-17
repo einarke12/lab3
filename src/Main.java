@@ -117,10 +117,10 @@ public class Main {
 		 */
 
 		csp.addConstraint(new EqualConstraint(nationList.get(0), colorList.get(0))); // meaning var1 == var2
-		csp.addConstraint(new EqualConstraint(nationList.get(0), petList.get(1))); // meaning var1 == var2
+		csp.addConstraint(new EqualConstraint(nationList.get(1), petList.get(1))); // meaning var1 == var2
 		csp.addConstraint(new EqualConstraint(drinkList.get(3), colorList.get(1))); // meaning var1 == var2
 		csp.addConstraint(new EqualConstraint(nationList.get(3), drinkList.get(2))); // meaning var1 == var2
-		csp.addConstraint(new EqualConstraint(drinkList.get(3), colorList.get(1))); // meaning var1 == var2
+
 		csp.addConstraint(new SuccessorConstraint(colorList.get(1), colorList.get(2))); // meaning var1 == var2 + 1
 		csp.addConstraint(new EqualConstraint(cigarettList.get(0), petList.get(3))); // meaning var1 == var2
 		csp.addConstraint(new EqualConstraint(cigarettList.get(1), colorList.get(3))); // meaning var1 == var2
